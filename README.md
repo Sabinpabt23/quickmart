@@ -22,6 +22,3 @@ A fully functional e-commerce web application built with Laravel for backend int
 4. Run migrations: `php artisan migrate --seed`
 5. Start server: `php artisan serve`
 
-## Purpose
-Built for Backend (Laravel) Internship application at Technorio Inc.
-Demonstrates Laravel MVC, Database Design, Authentication, and E-commerce functionality.
