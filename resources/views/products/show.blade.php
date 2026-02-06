@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Details - QuickMart</title>
+    <title>{{ $product->name }} - QuickMart</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .product-image {
@@ -28,6 +28,15 @@
             <div class="navbar-nav ms-auto">
                 <a class="nav-link" href="/">Home</a>
                 <a class="nav-link" href="/products">Products</a>
+                <a class="nav-link" href="/cart">
+                    Cart 
+                    @php
+                        $cartCount = count(session()->get('cart', []));
+                    @endphp
+                    @if($cartCount > 0)
+                    <span class="badge bg-danger">{{ $cartCount }}</span>
+                    @endif
+                </a>
                 @auth
                     <a class="nav-link" href="/home">Dashboard</a>
                     <form method="POST" action="{{ route('logout') }}" class="d-inline">
@@ -86,29 +95,24 @@
                             <p class="text-muted">{{ $product->description }}</p>
                         </div>
                         
-                        <!-- Quantity Selector -->
+                        <!-- Add to Cart Form -->
                         @if($product->stock > 0)
                         <div class="mb-4">
-                            <label for="quantity" class="form-label"><strong>Quantity:</strong></label>
-                            <div class="input-group" style="max-width: 150px;">
-                                <button class="btn btn-outline-secondary" type="button" id="decrease-qty">-</button>
-                                <input type="number" class="form-control text-center" value="1" min="1" max="{{ $product->stock }}" id="quantity">
-                                <button class="btn btn-outline-secondary" type="button" id="increase-qty">+</button>
-                            </div>
-                        </div>
-                        
-                        <!-- Action Buttons -->
-                        <div class="d-grid gap-2 d-md-block">
-                            <button class="btn btn-success btn-lg add-to-cart" data-id="{{ $product->id }}">
-                                <span>🛒 Add to Cart</span>
-                            </button>
-                            <a href="/products" class="btn btn-outline-primary btn-lg">Continue Shopping</a>
+                            <form action="{{ route('cart.add', $product->id) }}" method="POST">
+                                @csrf
+                                <button type="submit" class="btn btn-success btn-lg">
+                                    🛒 Add to Cart
+                                </button>
+                            </form>
                         </div>
                         @else
                         <div class="alert alert-warning">
                             <strong>Out of Stock!</strong> This product is currently unavailable.
                         </div>
                         @endif
+                        
+                        <!-- Continue Shopping -->
+                        <a href="/products" class="btn btn-outline-primary">Continue Shopping</a>
                     </div>
                 </div>
             </div>
@@ -130,33 +134,5 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <!-- Custom JavaScript -->
-    <script>
-        // Quantity controls
-        document.getElementById('increase-qty')?.addEventListener('click', function() {
-            const input = document.getElementById('quantity');
-            const max = parseInt(input.getAttribute('max'));
-            let value = parseInt(input.value);
-            if (value < max) {
-                input.value = value + 1;
-            }
-        });
-        
-        document.getElementById('decrease-qty')?.addEventListener('click', function() {
-            const input = document.getElementById('quantity');
-            let value = parseInt(input.value);
-            if (value > 1) {
-                input.value = value - 1;
-            }
-        });
-        
-        // Add to cart functionality
-        document.querySelector('.add-to-cart')?.addEventListener('click', function() {
-            const productId = this.getAttribute('data-id');
-            const quantity = document.getElementById('quantity')?.value || 1;
-            alert(`✅ Added ${quantity} × ${productId} to cart!`);
-        });
-    </script>
 </body>
 </html>

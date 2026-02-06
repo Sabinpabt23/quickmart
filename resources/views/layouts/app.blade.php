@@ -32,19 +32,20 @@
         <div class="container">
             <a class="navbar-brand" href="/">🛒 QuickMart</a>
             <div class="navbar-nav ms-auto">
-                <a class="nav-link" href="/">Home</a>
-                <a class="nav-link" href="/products">Products</a>
-                @auth
-                    <a class="nav-link" href="/home">Dashboard</a>
-                    <form method="POST" action="{{ route('logout') }}" class="d-inline">
-                        @csrf
-                        <button type="submit" class="nav-link btn btn-link">Logout</button>
-                    </form>
-                @else
-                    <a class="nav-link" href="{{ route('login') }}">Login</a>
-                    <a class="nav-link" href="{{ route('register') }}">Register</a>
-                @endauth
-            </div>
+    <a class="nav-link" href="/">Home</a>
+    <a class="nav-link" href="/products">Products</a>
+    <a class="nav-link" href="/cart">🛒 Cart</a>
+    @auth
+        <a class="nav-link" href="/home">Dashboard</a>
+        <form method="POST" action="{{ route('logout') }}" class="d-inline">
+            @csrf
+            <button type="submit" class="nav-link btn btn-link">Logout</button>
+        </form>
+    @else
+        <a class="nav-link" href="{{ route('login') }}">Login</a>
+        <a class="nav-link" href="{{ route('register') }}">Register</a>
+    @endauth
+</div>
         </div>
     </nav>
 

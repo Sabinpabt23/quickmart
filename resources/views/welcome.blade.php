@@ -28,6 +28,10 @@
             padding: 12px 30px;
             font-size: 1.1rem;
         }
+        .navbar-brand {
+            font-weight: bold;
+            color: #0d6efd !important;
+        }
     </style>
 </head>
 <body>
@@ -40,6 +44,7 @@
             <div class="navbar-nav ms-auto">
                 <a class="nav-link active" href="/">Home</a>
                 <a class="nav-link" href="/products">Products</a>
+                <a class="nav-link" href="/cart">🛒 Cart</a>
                 @auth
                     <a class="nav-link" href="/home">Dashboard</a>
                     <form method="POST" action="{{ route('logout') }}" class="d-inline">
